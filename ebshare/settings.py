@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'homePage',
     'books',
+    'viewbook',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -61,7 +62,8 @@ ROOT_URLCONF = 'ebshare.urls'
 TEMPLATE_DIRS = (
     'ebshare/templates',
     'homePage/templates',
-    'books/templates',)
+    'books/templates',
+    'viewbook/templates',)
 
 # TEMPLATES = [
 #     {
