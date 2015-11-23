@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'homePage',
     'books',
     'viewbook',
+    'userAuth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -49,10 +50,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 )
 
 
@@ -63,7 +64,8 @@ TEMPLATE_DIRS = (
     'ebshare/templates',
     'homePage/templates',
     'books/templates',
-    'viewbook/templates',)
+    'viewbook/templates',
+    'userAuth/templates')
 
 # TEMPLATES = [
 #     {

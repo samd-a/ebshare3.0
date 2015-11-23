@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^', include('homePage.urls')),
     url(r'^bookshelf/', include('books.urls')),
     url(r'^viewbook/', include('viewbook.urls')),
+    url(r'^userAuth/', include('userAuth.urls')),
 ]
