@@ -4,8 +4,8 @@
     "model": "book",
     "pk": 1,
     "fields": {
-      "book_title": "Object-Oriented and Classical Software Engineering",
-      "book_author": "Stephen R. Schach",
+    "book_title": "Object-Oriented and Classical Software Engineering",
+    "book_author": "Stephen R. Schach",
 	  "cover": "OOCnE.jpg",
 	  "alt_text": "OOCnE",
 	  "description": [
@@ -30,8 +30,8 @@
     "model": "book",
     "pk": 0,
     "fields": {
-      "book_title": "",
-      "book_author": "",
+    "book_title": "",
+    "book_author": "",
 	  "cover": "",
 	  "alt_text": "",
 	  "description": "",
