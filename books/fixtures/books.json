@@ -1,0 +1,27 @@
+[
+
+	{
+    "model": "book",
+    "pk": 1,
+    "fields": {
+      "book_title": "Object-Oriented and Classical Software Engineering",
+      "book_author": "Stephen R. Schach",
+	  "cover": "OOCnE.jpg",
+	  "alt_text": "OOCnE",
+	  "description": "Object-Oriented Software Engineering is written for both the traditional one-semester and the newer two-semester software engineering curriculum. Part I covers the underlying software engineering theory, while Part II presents the more practical life cycle, workflow by workflow. The text is intended for the substantial object-oriented segment of the software engineering market. It focuses exclusively on object-oriented approaches to the development of large software systems that are the most widely used. Text includes 2 running case studies, expanded coverage of agile processes and open-source development.",
+	  "details": "<ul><li>Lorem Ipsum</li><li>Dolor Sit Amet</li><li>Consectetur</li><li>Adipiscing Elit</li></ul>"
+    }
+  },
+  {
+    "model": "book",
+    "pk": 0,
+    "fields": {
+      "book_title": "",
+      "book_author": "",
+	  "cover": "",
+	  "alt_text": "",
+	  "description": "",
+	  "details": ""
+    }
+  }
+]
