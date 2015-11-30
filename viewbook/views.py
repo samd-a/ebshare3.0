@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import Context
-from django.db import books
+#...
+#from django.db import books
 
 # Create your views here.
 def renderviewbook(request, book_id):
