@@ -1,6 +1,6 @@
 [
 	{
-    "model": "book",
+    "model": "books.book",
     "pk": 1,
     "fields": {
       "book_title": "Object-Oriented and Classical Software Engineering",
@@ -12,7 +12,7 @@
     }
   },
   {
-    "model": "book",
+    "model": "books.book",
     "pk": 0,
     "fields": {
       "book_title": "",

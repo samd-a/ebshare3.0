@@ -18,3 +18,6 @@ class book(models.Model):
 
     def __unicode__(self):
 		return self.book.book_title
+
+#class txtbook(book):
+#    fixtures = ['books.json']
