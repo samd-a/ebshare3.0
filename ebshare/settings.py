@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'homePage',
     'books',
     'viewbook',
@@ -59,6 +60,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ebshare.urls'
 
+# Redirect users who aren't logged in to this url. Used with restricting access decorators.
+LOGIN_URL = '/userAuth/login/'
 
 TEMPLATE_DIRS = (
     'ebshare/templates',
