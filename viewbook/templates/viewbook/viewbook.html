@@ -8,8 +8,13 @@
         <!-- Portfolio Item Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Object-Oriented and Classical Software Engineering
-                    <small>Stephen R. Schach</small>
+                <h1 class="page-header">
+					{{book_title}}
+					<!-- Object-Oriented and Classical Software Engineering -->
+                    <small>
+					{{book_author}}
+					<!-- Stephen R. Schach -->
+					</small>
                 </h1>
             </div>
         </div>
@@ -20,24 +25,33 @@
 
             <div class="col-md-8">
 				{% load staticfiles %}
-				<img class="img-responsive" src="{% static "OOCnE.jpg" %}" alt="OOCnE"/>
+				<!-- OOCnE.jpg -->
+				<img class="img-responsive" src="{% static "" %}{{cover}}" alt="{{alt_text}}"/>
             </div>
 
             <div class="col-md-4">
                 <h3>Description</h3>
-                <p>Object-Oriented Software Engineering is written for both the traditional one-semester and the newer two-semester software engineering curriculum. 
+                <p>
+				{{description}}
+				<!--
+				Object-Oriented Software Engineering is written for both the traditional one-semester and the newer two-semester software engineering curriculum. 
 				Part I covers the underlying software engineering theory, 
 				while Part II presents the more practical life cycle, workflow by workflow.
 				The text is intended for the substantial object-oriented segment of the software engineering market. 
 				It focuses exclusively on object-oriented approaches to the development of large software systems that are the most widely used.
-				Text includes 2 running case studies, expanded coverage of agile processes and open-source development..</p>
+				Text includes 2 running case studies, expanded coverage of agile processes and open-source development..
+				-->
+				</p>
                 <h3>Details</h3>
-                <ul>
+				{{details}}
+				<!--
+				<ul>
                     <li>Lorem Ipsum</li>
                     <li>Dolor Sit Amet</li>
                     <li>Consectetur</li>
                     <li>Adipiscing Elit</li>
                 </ul>
+				-->
             </div>
 
         </div>
