@@ -9,7 +9,6 @@
     {% if registered %}
     <strong>Thank you for registering!</strong>
     {% else %}
-        <div class="row-lg-12">
             <div class="col-lg-12">
                     <!-- Line below is a cool hack to CSS the fields of Django's forms
                     make sure to install django-widget-tweaks and add 'widget_tweaks' to your INSTALLED_APPS -->
@@ -17,22 +16,23 @@
                     <form class="form-horizontal" action={% url "userAuth.views.register" %} enctype="multipart/form-data" id=
                     "user_form" method="post" name="user_form" role="form">
                         {% csrf_token %} 
-                        <fieldset>
                             {% for field in user_form %}
                                 {% if field.errors %}
                                     <div class="control-group error">
                                         <label class="control-label">{{ field.label }}</label> 
+                                        <div class="col-sm-10">
                                             <div class="input-group">{{ field }}
                                                 <span class="help-inline">
                                                     {% for error in  field.errors %}{{ error }}{% endfor %}
                                                 </span>
                                             </div>
+                                        </div>
                                     </div>
                                 {% else %}
                                     <div class="form-group">
                                         <label class="control-label">{{ field.label }}</label> 
                                         <div class="input-group">
-                                            {{ field|attr:"class:form-control" }}
+                                            {{ field|attr:"class:form-control input-lg" }}
                                             {% if field.help_text %}
                                                 <p class="help-inline"><small>{{ field.help_text }}</small></p>
                                             {% endif %}
@@ -63,11 +63,9 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}                                
-                        </fieldset>
-                        <input class="btn btn-info" id="submit" name="submit" type="submit" value="Register">                      
+                        <input class="btn btn-primary btn-default" id="submit" name="submit" type="submit" value="Register">                      
                     </form>
             </div>
     {% endif %}
-    </div>
 </div>
 {% endblock %}
