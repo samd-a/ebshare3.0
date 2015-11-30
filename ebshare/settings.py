@@ -60,6 +60,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ebshare.urls'
 
+# Redirect users who aren't logged in to this url. Used with restricting access decorators.
+LOGIN_URL = '/userAuth/login/'
 
 TEMPLATE_DIRS = (
     'ebshare/templates',

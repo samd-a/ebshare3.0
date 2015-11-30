@@ -11,6 +11,8 @@
     {% else %}
         <div class="row-lg-12">
             <div class="col-lg-12">
+                    <!-- Line below is a cool hack to CSS the fields of Django's forms
+                    make sure to install django-widget-tweaks and add 'widget_tweaks' to your INSTALLED_APPS -->
                     {% load i18n widget_tweaks %}
                     <form class="form-horizontal" action={% url "userAuth.views.register" %} enctype="multipart/form-data" id=
                     "user_form" method="post" name="user_form" role="form">
@@ -38,6 +40,7 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}
+                            <!-- Show the field forms for profile attributes like user picture etc -->
                             {% for field in profile_form %}
                                 {% if field.errors %}
                                     <div class="control-group error">
