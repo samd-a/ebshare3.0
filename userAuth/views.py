@@ -1,99 +1,106 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
+from userAuth.forms import UserForm, UserProfileForm
+from django.template import RequestContext
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
 
-# Create your views here.
 def renderSignup(request):
 	return render_to_response("userAuth/signup.html")
 
 def renderSignin(request):
 	return render_to_response("userAuth/signin.html")
 
+def register(request):
+	context = RequestContext(request)
 
-# From METSCAV
+	# Boolean value for telling the template whether the registration was successful
+	# Initially set to False. Changes to True when registration succeeds.
+	registered = False
 
-# # Create your views here.
-# def login_user(request):
-#     """
-#     :param: HttpRequest
-#     :rtype: HttpResponse
-    
-#     log a user into the website. This function takes the login information
-#     such as the username and password from the user and pass the information
-#     to **LogInForm**. The **LogInForm** has class method called **login_process()**
-#     and this class method handles processing the login information.
-#     """
-#     title = "Log in"
-#     args = {}
-#     user = None
+	# If it's a HTTP POST, we're interested in processing form data.
+	if request.method == 'POST':
+		# Attempt to grab information from the raw form information.
+		user_form = UserForm(data=request.POST)
+		profile_form = UserProfileForm(data=request.POST)
 
-#     if request.method == "POST":
-#         # The method should be post since it does not expose the user imformation on url.
-#         # it should be get method since login does not change state of any user data.
-#         form = LogInForm(request.POST)
-#         # check the form validation.
-#         if form.is_valid():
+		if user_form.is_valid() and profile_form.is_valid():
+			# Save the user's form data to the database.
+			user = user_form.save()
 
-#             user = form.login_process(request)
-#             if user is not None:
-#                 args = {'user':user}
-#                 args.update(csrf(request))
-#                 return render_to_response('home/home.html', args)
-#             else:
-#                 args = {'title':'Username does not exist.'}
-#                 args.update(csrf(request))
-#                 return render_to_response('user_auth/login.html', args)
-#     else:
-#         form = LogInForm()
+			# Hash the password with the set_password method.
+			# Once hashed, we can update the user object.
+			user.set_password(user.password)
+			user.save()
 
+			# Now sort out the UserProfile instance.
+			# Since we need to set the user attribute ourselves, we set commit=False.
+			# This delays saving the model until we're ready to avoid integrity problems.
+			profile = profile_form.save(commit=False)
+			profile.user = user
 
-#     args = {'form':form, 'title':title}
-#     args.update(csrf(request))
-#     return render_to_response('user_auth/login.html', args)
+			# Did the user provide a profile picture?
+			# If so, we need to get it from the imput form and put it in the userProfile model.
+			if 'picture' in request.FILES:
+				profile.picture = request.FILES['picture']
 
-# @login_required
-# def logout_user(request):
-#     """
-#     :param: HttpRequest
-#     :rtype: HttpResponse
-#     This function handles log the user out from the website. 
-#     """
+				# Now we save the userProfile model instance
+				profile.save()
 
-#     logout(request)
-#     return render_to_response('home/home.html', {})
+				# update our variable to tell the template registration was successful.
+				registered = True
 
-# def register(request):
-#     """
-#     :param: HttpRequest
-#     :rtype: HttpResponse
-#     This method handles registering new users. All neccessary information is
-#     taken from **register.html** page, and those information is passed into
-#     **RegisterForm** and the class method **register_form()** will process 
-#     the information.
-#     """
-#     user = None
-#     # handles registering.
-#     title = 'Register'
-#     args = {}
-#     if request.method == 'POST':
-#         # it means that we received inputs from the user.
-#         # Then, fill them out.
-#         form = RegisterForm(request.POST)
-#         # check if all inputs are valid.
-#         if form.is_valid():
-#             if_error = form.register_form()
-#             if not if_error:
-#                 args = {'title':'Username Exists', 'valid':False}
-#                 return render_to_response('user_auth/register.html', args)
-#             return HttpResponseRedirect('/')
-#         else:
-#             # form is not valid.
-#             args = {'title':'Data is not valid', 'valid':False}
-#             return render_to_response('user_auth/register.html', args)
-#     else:
-#         form = RegisterForm()
+			# Invalid form or forms - mistakes or something
+			# Print problems to the terminal and show them to user.
+			else:
+				print user_form.errors, profile_form.errors
+	# Not a HTTP POST, so we render our form using two ModelForm instances.
+	# These forms will be blank waiting for user input.
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
 
-#     args = {'form' : form,
-#             'title' : title,
-#             'valid':True}
-#     args.update(csrf(request)) # Guess passing csrf token to the template.
-#     return render_to_response('user_auth/register.html', args)
+	# Render the template depending on the context.
+	return render_to_response('userAuth/register.html',
+		{'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+		context)
+
+def user_login(request):
+	# We obtain the context for the user's request.
+	context = RequestContext(request)
+
+	# If the request is a HTTP POST, try to pull out relevant information.
+	if request.method == 'POST':
+		# Gather the username and password provided by the user.
+		# This information is obtained from the Login form.
+		username = request.POST['username']
+		password = request.POST['password']
+
+		# Use Django's machinery to attempt to see if the username/password
+		# combination is valid - a User object is returned if it is.
+		user = authenticate(username=username, password=password)
+
+		# If we have a user object, the details are correct.
+		# If None, no user with matching credentials was found.
+		if user:
+			# If the account active? It could have been disabled.
+			if user.is_active:
+				# If the account is valid and active, we can log the user in (using Django machinery).
+				# We'll send the user back to the homepage.
+				login(request, user)
+				return HttpResponseRedirect('/')
+			else:
+				# An inactive account was used - no logging in
+				return HttpResponse("Your account is disabled.")
+		else:
+			# Bad login details were provided. Don't log the user in.
+			# TODO: create an html page to redirect to with a login fail message
+			print "Invalid Login details"
+			return HttpResponse("Invalid login details was used")
+
+	# The request is not a HTTP POST, so display the login form.
+	# This scenario would most likely be a HTTP GET
+	else:
+		# No context variables to pass to the template system, hence the 
+		# blank dictionary object
+		return render_to_response('userAuth/login.html', {}, context)
