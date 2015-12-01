@@ -22,11 +22,4 @@ class Migration(migrations.Migration):
                 ('details', models.CharField(max_length=200)),
             ],
         ),
-        migrations.CreateModel(
-            name='txtbook',
-            fields=[
-                ('book_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='books.book')),
-            ],
-            bases=('books.book',),
-        ),
     ]
