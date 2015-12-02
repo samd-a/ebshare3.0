@@ -19,7 +19,11 @@
         <div class="carousel-caption">
           <h1>Electronic Book Sharing Platform.</h1>
           <p>Where users can share and review hundreds of electronic books</p>
+          {% if user.is_authenticated %}
+          <p><a class="btn btn-lg btn-primary" href={% url "userAuth.views.register" %} role="button">Upload Books</a></p> 
+          {% else %}
           <p><a class="btn btn-lg btn-primary" href={% url "userAuth.views.register" %} role="button">Register today</a></p>
+          {% endif %}                
         </div>
       </div>
     </div>
