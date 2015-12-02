@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
 
-def renderSignup(request):
-	return render_to_response("userAuth/signup.html")
+def renderProfile(request):
+	return render_to_response("userAuth/profile.html")
 
 def renderSignin(request):
 	return render_to_response("userAuth/signin.html")
