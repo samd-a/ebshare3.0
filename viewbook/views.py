@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import Context
+from django.template import RequestContext
+
 #...
 from books.models import book
 
 # Create your views here.
 def renderviewbook(request, book_id):
-        c = Context();
+
+        c = RequestContext(request);
         b = book.objects.get(pk=book_id)
         #needs to be pulled from db.
         #c['book_title'] = "Object-Oriented and Classical Software Engineering"
