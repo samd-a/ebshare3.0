@@ -2,21 +2,22 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='user',
+            name='userProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('userName', models.CharField(max_length=30)),
-                ('userEmail', models.CharField(max_length=30)),
-                ('userPwd', models.CharField(max_length=30)),
+                ('picture', models.ImageField(upload_to=b'profile_images', blank=True)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

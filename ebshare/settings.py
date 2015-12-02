@@ -124,3 +124,7 @@ STATICFILES_DIRS = (
     'ebshare/static/',
     '', # add root path.
 )
+
+FIXTURE_DIRS = (
+   'ebshare/fixtures/',
+)
