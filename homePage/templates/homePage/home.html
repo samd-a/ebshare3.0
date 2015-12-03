@@ -68,13 +68,13 @@
   
   
   <!-- for 3 moderators/superusers in users -->
-  <!-- {% for user in superusers|slice:":3" %} -->
+  <!-- { % for user in superusers|slice:":3" %} -->
     <div class="col-lg-4">
-		<!--{{user.img}}-->
+		<!--{ {user.img}}-->
       <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-	  <!-- {{user.name}} -->
+	  <!-- { {user.name}} -->
 	  <h2>Abhishek</h2>
-	  <!-- {{user.bio}} -->
+	  <!-- { {user.bio}} -->
       <p>TODO: Refer to comments.</p>
 	  <!-- href={url renderUserProfile} -->
 	  <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
