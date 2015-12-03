@@ -118,5 +118,10 @@ def user_logout(request):
 
 
 
+@login_required
+def user_profile(request):
+	context = RequestContext(request)
+	return render_to_response('userAuth/profile.html', context)
+
 
 
