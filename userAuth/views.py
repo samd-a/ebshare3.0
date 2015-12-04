@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from userAuth.forms import UserForm, UserProfileForm
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.core.context_processors import csrf # for Cross Site Request Forgery.
+from userAuth.models import add_user_book
 
 def renderProfile(request):
 	return render_to_response("userAuth/profile.html")
@@ -108,6 +109,16 @@ def user_login(request):
 		return render_to_response('userAuth/login.html', {}, context)
 
 @login_required
+def user_profile(request):
+	
+    context = RequestContext(request)
+    user = request.user
+    args = {'user': user}
+    args.update(csrf(request))
+    return render_to_response('userAuth/profile.html', args, context)
+
+
+@login_required
 def user_logout(request):
 	# Since we know the user is loggin in, we can now just log them out.
 	logout(request)
@@ -116,12 +127,28 @@ def user_logout(request):
 	return HttpResponseRedirect('/')
 
 
+def addBook(request):
+
+	user = request.user.username
+	c_srf = {'user': user}
+	c_srf.update(csrf(request))
+	bTitle = str(request.POST.get('title'))
+	bAuthor = str(request.POST.get('author'))
+	bDescription = str(request.POST.get('description'))
+	# bCover = 
+	bGenre = str(request.POST.get('genre', ''))
+	#add_user_book(user, bTitle, bAuthor, bDescription, bGenre)
+	add_user_book( bTitle, bAuthor, bDescription, bGenre)
+	
+	return HttpResponseRedirect('/')
+	# TODO:
+	# generate book id 
+	# models class add_user_book 
+	
 
 
-@login_required
-def user_profile(request):
-	context = RequestContext(request)
-	return render_to_response('userAuth/profile.html', context)
 
-
-
+#TODO:
+#get_booksuploaded
+#get_review written
+#get_points
