@@ -136,9 +136,9 @@ def addBook(request):
 	bAuthor = str(request.POST.get('author'))
 	bDescription = str(request.POST.get('description'))
 	# bCover = 
-	bGenre = str(request.POST.get('genre', ''))
-	#add_user_book(user, bTitle, bAuthor, bDescription, bGenre)
-	add_user_book( bTitle, bAuthor, bDescription, bGenre)
+	bGenre = str(request.POST.get('genre'))
+	add_user_book(user, bTitle, bAuthor, bDescription, bGenre)
+	#add_user_book( bTitle, bAuthor, bDescription, bGenre)
 	
 	return HttpResponseRedirect('/')
 	# TODO:

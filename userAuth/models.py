@@ -32,12 +32,12 @@ class review(models.Model):
 		return self.reviewTitle
 
 
-#def add_user_book(user, title, author, description, genre):
-def add_user_book(title, author, description, genre):
+def add_user_book(user, title, author, description, genre):
+#def add_user_book(title, author, description, genre):
 	Book = book()
 	Book.book_title = title
 	Book.book_author = author
 	Book.description = description
 	Book.genre = genre
-	#Book.user = user
+	Book.createdby = user
 	Book.save()

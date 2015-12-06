@@ -13,8 +13,8 @@ class book(models.Model):
     details = models.CharField(max_length=200)
     genre = models.CharField(max_length=20)
     # User who uploaded it
-    #user = models.ForeignKey(User, default=001)
-
+    #user = models.ForeignKey(User, blank=True, null=True,)
+    createdby = models.CharField(max_length=20)
     
     #ideally, these would 1 non-array field with the paragraph text
     #current error: "need more than 1 value to unpack"
