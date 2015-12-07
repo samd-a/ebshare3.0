@@ -36,7 +36,7 @@ def renderviewbook(request, book_id):
         #combine book details and related books into 
         c['book_title'] = b.book_title
         c['book_author'] = b.book_author
-        c['cover'] = b.cover
+        c['book_cover'] = b.book_cover
         c['alt_text'] = b.alt_text
         c['description'] = b.description
         c['details'] = b.details
