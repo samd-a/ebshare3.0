@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf # for Cross Site Request Forgery.
 from userAuth.models import add_user_book
+from books.models import book
 
 def renderProfile(request):
 	return render_to_response("userAuth/profile.html")
@@ -113,7 +114,8 @@ def user_profile(request):
 	
     context = RequestContext(request)
     user = request.user
-    args = {'user': user}
+    bookList = book.objects.filter(user=user) 
+    args = {'user': user, 'bookList': bookList}
     args.update(csrf(request))
     return render_to_response('userAuth/profile.html', args, context)
 
@@ -129,16 +131,16 @@ def user_logout(request):
 
 def addBook(request):
 
-	user = request.user.username
+	user = request.user
 	c_srf = {'user': user}
 	c_srf.update(csrf(request))
 	bTitle = str(request.POST.get('title'))
 	bAuthor = str(request.POST.get('author'))
 	bDescription = str(request.POST.get('description'))
 	# bCover = 
-	bGenre = str(request.POST.get('genre', ''))
-	#add_user_book(user, bTitle, bAuthor, bDescription, bGenre)
-	add_user_book( bTitle, bAuthor, bDescription, bGenre)
+	bGenre = str(request.POST.get('genre'))
+	add_user_book(user, bTitle, bAuthor, bDescription, bGenre)
+	#add_user_book( bTitle, bAuthor, bDescription, bGenre)
 	
 	return HttpResponseRedirect('/')
 	# TODO:

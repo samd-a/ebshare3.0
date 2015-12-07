@@ -11,10 +11,12 @@ class userProfile(models.Model):
 	user = models.OneToOneField(User)
 
 	# The additional attribute we want to include.
+	username = models.CharField(max_length=50, primary_key=True)	
 	picture = models.ImageField(upload_to='profile_images', blank=True)
 	
 	# TODO:
-	# bio =
+	# bio = 
+
 	# 
 	# Override the __unicode__() method to return something meaningful
 	def __unicode__(self):
@@ -25,19 +27,19 @@ class review(models.Model):
 	
 	reviewTitle = models.CharField(max_length=30)
 	reviewContent = models.CharField(max_length=150)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, db_column='user')
 	book = models.ForeignKey(book)
 
 	def __unicode__(self):
 		return self.reviewTitle
 
 
-#def add_user_book(user, title, author, description, genre):
-def add_user_book(title, author, description, genre):
+def add_user_book(user, title, author, description, genre):
+#def add_user_book(title, author, description, genre):
 	Book = book()
 	Book.book_title = title
 	Book.book_author = author
 	Book.description = description
 	Book.genre = genre
-	#Book.user = user
+	Book.user = user
 	Book.save()

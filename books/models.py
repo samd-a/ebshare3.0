@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class book(models.Model):
     # Book Attributes
-    book_title = models.CharField(max_length=100)
+    book_title = models.CharField(max_length=20)
     book_author = models.CharField(max_length=60)
     cover = models.CharField(max_length=20)
     alt_text = models.CharField(max_length=20)
@@ -13,8 +13,9 @@ class book(models.Model):
     details = models.CharField(max_length=200)
     genre = models.CharField(max_length=20)
     # User who uploaded it
-    #user = models.ForeignKey(User, default=001)
-
+    user = models.ForeignKey(User, db_column='user')#, blank=True, null=True,)
+    #user_id = models.IntegerField(max_length=2-)
+    #createdby = models.CharField(max_length=20)
     
     #ideally, these would 1 non-array field with the paragraph text
     #current error: "need more than 1 value to unpack"
