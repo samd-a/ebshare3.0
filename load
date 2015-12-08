@@ -3,4 +3,5 @@
 for i in "$@"
 do
 	python manage.py loaddata $i.json
+	echo "---------"
 done

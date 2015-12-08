@@ -1,1 +1,1 @@
-[{"fields": {"book_title": "lib", "description": "it's a library", "book_author": "dude", "user": 10, "alt_text": "", "book_cover": "photos/lib/library.jpg", "genre": "edu", "details": ""}, "model": "books.book", "pk": 26}]
+[{"fields": {"book_title": "booktheif", "description": "gyufgjbhlfbgwekuh", "book_author": "author", "user": 1, "alt_text": "", "points": 50, "book_cover": "photos/booktheif/bookthief_jLiMsqm.jpg", "genre": "fantasy", "details": ""}, "model": "books.book", "pk": 1}]
