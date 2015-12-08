@@ -53,3 +53,11 @@ def add_user_book(user, cover, title, points, author, description, genre):
 	Book.genre = genre
 	Book.user = user
 	Book.save()
+
+class badWords(models.Model):
+    badword = models.CharField(max_length=10)
+    user = models.ForeignKey(User, db_column='user')
+
+    def __unicode__(self):
+		return self.badword
+
