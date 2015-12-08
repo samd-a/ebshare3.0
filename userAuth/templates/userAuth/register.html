@@ -14,7 +14,7 @@
                     make sure to install django-widget-tweaks and add 'widget_tweaks' to your INSTALLED_APPS -->
                     {% load i18n widget_tweaks %}
                     <form class="form-horizontal" action={% url "userAuth.views.register" %} enctype="multipart/form-data" id=
-                    "user_form" method="post" name="user_form" role="form">
+                    "user_form" method="post" name="user_form" role="form" enctype="multipart/form-data" >
                         {% csrf_token %} 
                             {% for field in user_form %}
                                 {% if field.errors %}

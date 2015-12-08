@@ -1,8 +1,10 @@
 from django.db import models
 from books.models import book
 from django.contrib.auth.models import User
+import os
 
-# Create your models here.
+def get_image_path(instance, filename):
+    return os.path.join('photos', str(instance.username), filename)
 
 class userProfile(models.Model):
 	# This line links userProfile to a Django User model instance.
@@ -12,7 +14,7 @@ class userProfile(models.Model):
 
 	# The additional attribute we want to include.
 	username = models.CharField(max_length=50, primary_key=True)	
-	picture = models.ImageField(upload_to='profile_images', blank=True)
+	picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 	
 	# TODO:
 	# bio = 
@@ -33,10 +35,17 @@ class review(models.Model):
 	def __unicode__(self):
 		return self.reviewTitle
 
+def add_profile_pic(user, picture):
+	userProf = userProfile()
+	userProf.user = user
+	#userProf.username = user.username
+	userProf.picture = picture
+	userProf.save()
 
-def add_user_book(user, title, author, description, genre):
+def add_user_book(user, cover, title, author, description, genre):
 #def add_user_book(title, author, description, genre):
 	Book = book()
+	Book.book_cover = cover
 	Book.book_title = title
 	Book.book_author = author
 	Book.description = description

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf # for Cross Site Request Forgery.
 from userAuth.models import add_user_book
+from userAuth.models import add_profile_pic
 from books.models import book
 
 def renderProfile(request):
@@ -128,21 +129,29 @@ def user_logout(request):
 	# Take the user back to the homepage.
 	return HttpResponseRedirect('/')
 
+def addPic(request):
+	user = request.user
+	picture = request.FILES['picture']
+	c_srf = {'user': user}
+	c_srf.update(csrf(request))
+
+	add_profile_pic(user, picture)
+	return HttpResponseRedirect('/')
 
 def addBook(request):
 
 	user = request.user
+	bCover = request.FILES['cover'] 
 	c_srf = {'user': user}
 	c_srf.update(csrf(request))
 	bTitle = str(request.POST.get('title'))
 	bAuthor = str(request.POST.get('author'))
 	bDescription = str(request.POST.get('description'))
-	# bCover = 
 	bGenre = str(request.POST.get('genre'))
-	add_user_book(user, bTitle, bAuthor, bDescription, bGenre)
+	add_user_book(user, bCover, bTitle, bAuthor, bDescription, bGenre)
 	#add_user_book( bTitle, bAuthor, bDescription, bGenre)
 	
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/bookshelf/')
 	# TODO:
 	# generate book id 
 	# models class add_user_book 

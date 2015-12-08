@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^profile/$', views.user_profile, name='profile'),
     url(r'^addBook/$', views.addBook, name='addBook'),
+    url(r'^addPic/$', views.addPic, name='addPic'),
 
 ]
