@@ -42,11 +42,12 @@ def add_profile_pic(user, picture):
 	userProf.picture = picture
 	userProf.save()
 
-def add_user_book(user, cover, title, author, description, genre):
+def add_user_book(user, cover, title, points, author, description, genre):
 #def add_user_book(title, author, description, genre):
 	Book = book()
 	Book.book_cover = cover
 	Book.book_title = title
+	Book.book_points = points
 	Book.book_author = author
 	Book.description = description
 	Book.genre = genre

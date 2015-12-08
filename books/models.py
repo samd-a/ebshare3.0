@@ -14,7 +14,7 @@ class book(models.Model):
     description = models.CharField(max_length=750)
     details = models.CharField(max_length=400)
     genre = models.CharField(max_length=20)
-    points = models.IntegerField(default='50')
+    book_points = models.CharField(max_length=50, default='50')
     # User who uploaded it
     user = models.ForeignKey(User, db_column='user', default="DevTeam")#, blank=True, null=True,)
 

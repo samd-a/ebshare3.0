@@ -145,10 +145,11 @@ def addBook(request):
 	c_srf = {'user': user}
 	c_srf.update(csrf(request))
 	bTitle = str(request.POST.get('title'))
+	bPoints = str(request.POST.get('points'))
 	bAuthor = str(request.POST.get('author'))
 	bDescription = str(request.POST.get('description'))
 	bGenre = str(request.POST.get('genre'))
-	add_user_book(user, bCover, bTitle, bAuthor, bDescription, bGenre)
+	add_user_book(user, bCover, bTitle, bPoints, bAuthor, bDescription, bGenre)
 	#add_user_book( bTitle, bAuthor, bDescription, bGenre)
 	
 	return HttpResponseRedirect('/bookshelf/')

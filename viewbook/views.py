@@ -19,6 +19,7 @@ def renderviewbook(request, book_id):
         c['book_title'] = b.book_title
         c['book_author'] = b.book_author
         c['book_cover'] = b.book_cover
+        c['book_points'] = b.book_points
         c['alt_text'] = b.alt_text
         c['description'] = b.description
         c['details'] = b.details
