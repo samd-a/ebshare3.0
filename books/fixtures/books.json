@@ -1,0 +1,1 @@
+[{"fields": {"book_title": "lib", "description": "it's a library", "book_author": "dude", "user": 10, "alt_text": "", "book_cover": "photos/lib/library.jpg", "genre": "edu", "details": ""}, "model": "books.book", "pk": 26}]

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^', include('homePage.urls')),
     url(r'^bookshelf/', include('books.urls')),
     url(r'^viewbook/', include('viewbook.urls')),
+    #url(r'^viewbook/reader/', include('viewbook.urls')),
     url(r'^userAuth/', include('userAuth.urls')), 
     # url patterns to serve static and media files.
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
