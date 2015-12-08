@@ -1,0 +1,23 @@
+#!/bin/bash
+apps=""
+django=$(cat django)
+
+if [[ ( "$#" == 0 ) ]]
+then
+	apps=$(cat apps)
+else
+	apps=$@
+fi
+
+for i in $apps
+do
+	mkdir -p $i/fixtures
+	echo "dumping $i.json"
+	python manage.py dumpdata --format=json $i > $i/fixtures/$i.json
+done
+
+for i in $django
+do
+	mv $i/fixtures/$i.json $i.json
+	rm -r $i
+done

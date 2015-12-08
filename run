@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#tmux new-session -s python
+#tmux send-keys -t python 'manage.py runserver'
+#tmux split-window -v -t google-chrome
+#tmux send-keys -t google-chrome '127.0.0.1:8000'
+
+#To make the terminal that pops up your own, run this command:
+#sudo update-alternatives --config x-terminal-emulator
+
+x-terminal-emulator -e python manage.py runserver
+while ! curl http://localhost:8000 -m1 -o/dev/null -s ; do
+  sleep 0.1
+done
+x-terminal-emulator -e google-chrome http://localhost:8000

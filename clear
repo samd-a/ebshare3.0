@@ -1,0 +1,13 @@
+#!/bin/bash
+apps=$(cat apps)
+django=$(cat django)
+
+for i in $apps
+do
+	rm -r $i/fixtures/
+done
+
+for i in $django
+do
+	rm $i.json
+done

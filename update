@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#edit apps to add apps that use their model.py
+
+yes yes | python manage.py flush
+python manage.py makemigrations
+python manage.py migrate
+if [[ ( "$#" == 0 ) ]]
+then
+	./load $(cat apps)
+else
+	./load $@
+fi
