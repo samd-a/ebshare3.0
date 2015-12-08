@@ -14,8 +14,9 @@ class book(models.Model):
     description = models.CharField(max_length=750)
     details = models.CharField(max_length=400)
     genre = models.CharField(max_length=20)
+    points = models.IntegerField(default='50')
     # User who uploaded it
-    user = models.ForeignKey(User, db_column='user')#, blank=True, null=True,)
+    user = models.ForeignKey(User, db_column='user', default="DevTeam")#, blank=True, null=True,)
 
     
     #ideally, these would 1 non-array field with the paragraph text

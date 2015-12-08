@@ -15,7 +15,7 @@ class userProfile(models.Model):
 	# The additional attribute we want to include.
 	username = models.CharField(max_length=50, primary_key=True)	
 	picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
-	
+	points = models.IntegerField(default=0)
 	# TODO:
 	# bio = 
 
