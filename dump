@@ -13,7 +13,7 @@ for i in $apps
 do
 	mkdir -p $i/fixtures
 	echo "dumping $i.json"
-	python manage.py dumpdata --format=json $i > $i/fixtures/$i.json
+	python manage.py dumpdata --format=json $i | python -m json.tool > $i/fixtures/$i.json
 done
 
 for i in $django

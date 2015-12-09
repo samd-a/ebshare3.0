@@ -11,13 +11,15 @@
 
         <!-- Portfolio Item Heading -->
         <div class="row">
+			<hr/>
             <div class="col-lg-12">
                 <h1 class="page-header">
 					<small>Time left: </small>
 					<strong><span id="time"></span></strong>
                 </h1>
 				
-                <button class="btn btn-default primary" onclick="myFunction()">Search for bad words...</button>
+                <button class="btn btn-default primary" onclick="badWords()">Search for bad words...</button>
+				<button class="btn btn-default primary" onclick="closeBook()">Close book...</button>
             </div>
         </div>
         <!-- /.row -->
@@ -43,6 +45,12 @@ window.onbeforeunload = function(){
 	//TODO: update reader table 
 };
 
+function closeBook(){
+	//var redirectURL = {% url "viewbook.views.updatetime" id 0 %};
+	if (timer < 0) timer = 0;
+	window.location.assign("{% url "viewbook.views.updatetime" id 0 %}".replace("0", timer));
+}
+
 function startTimer(display) {
 	var minutes, seconds;
     setInterval(function () {
@@ -57,7 +65,7 @@ function startTimer(display) {
         if (--timer < 0) {
             alert("Time out");
 			//TODO: redirect to viewbook.html
-    		window.location.assign('http://127.0.0.1:8000/');
+    		closeBook();
         }
     }, 1000);
 }
