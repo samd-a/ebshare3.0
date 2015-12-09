@@ -59,6 +59,10 @@ def renderreader(request, book_id):
         c['id'] = book_id
         return render_to_response("viewbook/reader.html", c)
 
+
+#This is a bad idea if we care about security, but it's all good in the hood.
+#It lets post requests happen without authentication.
+@csrf_exempt
 def purchasebook(request, book_id, price, seconds):
         b = book.objects.get(pk=book_id)
         readerEntry, created = reader.objects.get_or_create(user=request.user.id, book=b)
@@ -66,7 +70,7 @@ def purchasebook(request, book_id, price, seconds):
             readerEntry.time_left = F('time_left') + seconds
             readerEntry.save()
         
-        return renderreader(request, book_id)
+        return HTTPResponse();
 
 @csrf_exempt
 def updatetime(request, book_id, seconds):

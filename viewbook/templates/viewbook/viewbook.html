@@ -43,7 +43,7 @@
 					<a href={% url "viewbook.views.renderreader" id%}>Read {{book_title}}...</a>
 				{% endif %}
 				<h3>Points needed:</h3>
-				<p><a href={% url "viewbook.views.purchasebook" id book_points 10 %}>{{book_points}} for 10 seconds</a></p>
+                <button class="btn btn-default primary" onclick="addTime()">{{book_points}} for 10 seconds</button>
                 <!--
                 <ul>
                     <li>Lorem Ipsum</li>
@@ -109,5 +109,11 @@
             </div>
         </div>
 </div>
-
+<script>
+function addTime(){
+	//update reader table
+	$.post('{% url "viewbook.views.purchasebook" id book_points 10 %}');
+	window.location.assign('{% url "viewbook.views.renderreader" id%}');
+}
+</script>
 {% endblock %}

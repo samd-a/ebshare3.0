@@ -40,13 +40,18 @@
 var timer;
 
 window.onbeforeunload = function(){
-	//update reader table
-	if (timer < 0) timer = 0;
-	$.post('{% url "viewbook.views.updatetime" id 0 %}'.replace("0", timer));
+	updateTime();
 };
 
 function closeBook(){
+	updateTime();
 	window.location.assign('{% url "viewbook.views.renderviewbook" id %}');
+}
+
+function updateTime(){
+	//update reader table
+	if (timer < 0) timer = 0;
+	$.post('{% url "viewbook.views.updatetime" id 0 %}'.replace("0", timer));
 }
 
 function startTimer(display) {
