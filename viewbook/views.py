@@ -4,6 +4,7 @@ from django.template import Context
 from django.template import RequestContext
 from django.db.models import Q
 from books.models import book
+from viewbook.models import reader
 
 # Create your views here.
 def renderviewbook(request, book_id):
@@ -31,16 +32,12 @@ def renderviewbook(request, book_id):
 def renderreader(request, book_id):
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
+        r = reader.objects.filter(Q(book__contains=b) & Q(user__contains=request.user))
+        #b = book.objects.get(pk=book_id)
         #get books with same genre or author
         #remove this one from list
-        related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
 	
         #combine book details and related books into Context
-        c['book_title'] = b.book_title
-        c['book_author'] = b.book_author
-        c['book_cover'] = b.book_cover
-        c['alt_text'] = b.alt_text
-        c['description'] = b.description
-        c['details'] = b.details
-        c['related'] = related
+        c['time_left'] = r.time_left
+        c['book_text'] = b.descriptiom
         return render_to_response("viewbook/reader.html", c)
