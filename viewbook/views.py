@@ -6,6 +6,9 @@ from django.db.models import Q
 from django.db.models import F
 from books.models import book
 from viewbook.models import reader
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
 
 # Create your views here.
 def renderviewbook(request, book_id):
@@ -65,6 +68,7 @@ def purchasebook(request, book_id, price, seconds):
         
         return renderreader(request, book_id)
 
+@csrf_exempt
 def updatetime(request, book_id, seconds):
         b = book.objects.get(pk=book_id)
         readerEntry, created = reader.objects.get_or_create(user=request.user.id, book=b)
@@ -72,5 +76,5 @@ def updatetime(request, book_id, seconds):
             readerEntry.time_left = seconds
             readerEntry.save()
         
-        return renderviewbook(request, book_id)
+        return HTTPResponse();
 
