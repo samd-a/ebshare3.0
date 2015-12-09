@@ -32,12 +32,15 @@ def renderviewbook(request, book_id):
 def renderreader(request, book_id):
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-        r = reader.objects.filter(Q(book__contains=b) & Q(user__contains=request.user))
+        r = reader.objects.filter(Q(book=book_id) & Q(user=request.user))
         #b = book.objects.get(pk=book_id)
         #get books with same genre or author
         #remove this one from list
 	
         #combine book details and related books into Context
-        c['time_left'] = r.time_left
-        c['book_text'] = b.descriptiom
+        if r.count() > 0:
+            c['time_left'] = r.time_left
+        else:
+            c['time_left'] = 3
+        c['book_text'] = b.description
         return render_to_response("viewbook/reader.html", c)
