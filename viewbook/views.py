@@ -13,7 +13,7 @@ def renderviewbook(request, book_id):
 
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-        r = reader.objects.filter(Q(book=book_id) & Q(user=request.user))
+        r = reader.objects.filter(Q(book=b) & Q(user=request.user.id))
         #get books with same genre or author
         #remove this one from list
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
@@ -40,7 +40,7 @@ def renderviewbook(request, book_id):
 def renderreader(request, book_id):
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-        r = reader.objects.filter(Q(book=b) & Q(user=request.user))
+        r = reader.objects.filter(Q(book=b) & Q(user=request.user.id))
         #b = book.objects.get(pk=book_id)
         #get books with same genre or author
         #remove this one from list
@@ -58,10 +58,19 @@ def renderreader(request, book_id):
 
 def purchasebook(request, book_id, price, seconds):
         b = book.objects.get(pk=book_id)
-        readerEntry, created = reader.objects.get_or_create(user=request.user, book=b)
+        readerEntry, created = reader.objects.get_or_create(user=request.user.id, book=b)
         if not created:
             readerEntry.time_left = F('time_left') + seconds
             readerEntry.save()
         
         return renderreader(request, book_id)
+
+def updatetime(request, book_id, seconds):
+        b = book.objects.get(pk=book_id)
+        readerEntry, created = reader.objects.get_or_create(user=request.user.id, book=b)
+        if not created:
+            readerEntry.time_left = seconds
+            readerEntry.save()
+        
+        return renderviewbook(request, book_id)
 
