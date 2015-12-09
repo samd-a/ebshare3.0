@@ -3,15 +3,15 @@
         "fields": {
             "alt_text": "",
             "book_author": "author",
-            "book_cover": "photos/title/bookthief.jpg",
+            "book_cover": "photos/title/bookthief_hegtB4u.jpg",
             "book_points": "50",
             "book_title": "title",
-            "description": "jcfjcvfj",
+            "description": "ddkmvjfbhyjewf",
             "details": "",
             "genre": "genre",
-            "user": 1
+            "user": 3
         },
         "model": "books.book",
-        "pk": 1
+        "pk": 3
     }
 ]
