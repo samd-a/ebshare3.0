@@ -38,16 +38,20 @@
 
                 <h3>Details</h3>
                 {{details|safe}}
-
 				{% if time_left > 0 %}
 					<a href={% url "viewbook.views.renderreader" id%}>Read {{book_title}}...</a>
 				{% endif %}
 				<h3>Points needed:</h3>
+<!--
 				{% for i in "012" %}
-				<button class="btn btn-default primary" onclick="addTime()" {% if book_points < (book_points * (1 + i * 0.5)) %}disabled{% endif %} >
-					{{book_points * (1 + i * 0.5))}} for {{10 * (1 + i)}} seconds
+				<button class="btn btn-default primary" onclick="addTime()" { % if book_points < (book_points * (1 + i * 0.5)) %}disabled{ % endif %} >
+					{ {book_points * (1 + i * 0.5))}} for { {10 * (1 + i)}} seconds
 				</button>
 				{% endfor %}
+-->
+				<button class="btn btn-default primary" onclick="addTime()" >
+					{{book_points}} for 10 seconds
+				</button>
                 <!--
                 <ul>
                     <li>Lorem Ipsum</li>
@@ -116,7 +120,11 @@
 <script>
 function addTime(){
 	//update reader table
-	$.post('{% url "viewbook.views.purchasebook" id book_points 10 %}');
+	$.ajax({
+		url: '{% url "viewbook.views.purchasebook" id book_points 10 %}',
+		type: "POST",
+		async: false
+	});
 	window.location.assign('{% url "viewbook.views.renderreader" id%}');
 }
 </script>
