@@ -42,13 +42,18 @@
 var timer;
 
 window.onbeforeunload = function(){
-	//TODO: update reader table 
+	updateTime();
 };
 
 function closeBook(){
-	//var redirectURL = {% url "viewbook.views.updatetime" id 0 %};
+	updateTime();
+	window.location.assign('{% url "viewbook.views.renderviewbook" id %}');
+}
+
+function updateTime(){
+	//update reader table
 	if (timer < 0) timer = 0;
-	window.location.assign("{% url "viewbook.views.updatetime" id 0 %}".replace("0", timer));
+	$.post('{% url "viewbook.views.updatetime" id 0 %}'.replace("0", timer));
 }
 
 function startTimer(display) {
@@ -64,8 +69,7 @@ function startTimer(display) {
 
         if (--timer < 0) {
             alert("Time out");
-			//TODO: redirect to viewbook.html
-    		closeBook();
+			closeBook();
         }
     }, 1000);
 }
