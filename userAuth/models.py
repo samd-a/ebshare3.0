@@ -23,13 +23,6 @@ class userProfile(models.Model):
 	# Override the __unicode__() method to return something meaningful
 	def __unicode__(self):
 		return self.user.username
-		
-
-class review(models.Model):
-	reviewTitle = models.CharField(max_length=30)
-	reviewContent = models.CharField(max_length=150)
-	user = models.ForeignKey(User, db_column='user')
-	book = models.ForeignKey(book)
 
 # class review(models.Model):
 	

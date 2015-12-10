@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.db.models import F
 from books.models import book, review
 from viewbook.models import reader
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -17,6 +18,7 @@ def renderviewbook(request, book_id):
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
         r = reader.objects.filter(Q(book=b) & Q(user=request.user))
+        revs = review.objects.filter(book_review=b)
         #get books with same genre or author
         #remove this one from list
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
@@ -39,6 +41,7 @@ def renderviewbook(request, book_id):
         c['details'] = b.details
         c['related'] = related
         c['id'] = book_id
+        c['reviews'] = revs
 
 	return render_to_response("viewbook/viewbook.html", c)
 
@@ -85,8 +88,8 @@ def updatetime(request, book_id, seconds):
         
         return HTTPResponse('1');
 
-
+@login_required
 def add_review(request,book_id):
     book_selected = book.objects.get(pk=book_id)
     review(user=request.user,book_review=book_selected,content=request.POST['review']).save()
-    return HttpResponseRedirect('/viewbook/book_id')
+    return HttpResponseRedirect('/')
