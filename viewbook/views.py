@@ -16,17 +16,12 @@ def renderviewbook(request, book_id):
 
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-<<<<<<< HEAD
-        r = reader.objects.filter(Q(book=b) & Q(user=request.user))
         revs = review.objects.filter(book_review=b)
-||||||| merged common ancestors
         r = reader.objects.filter(Q(book=b) & Q(user=request.user))
-=======
         if(request.user.is_authenticated()):
             r = reader.objects.filter(Q(book=b) & Q(user=request.user))
         else:
             r = reader.objects.none()
->>>>>>> fea04b48f0fdea0790a566d2768dd6b1f528cf48
         #get books with same genre or author
         #remove this one from list
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
