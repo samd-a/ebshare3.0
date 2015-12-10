@@ -2,16 +2,43 @@
     {
         "fields": {
             "alt_text": "",
-            "book_author": "author",
-            "book_cover": "photos/title/bookthief_Y5sCtMS.jpg",
+            "book_author": "school",
+            "book_cover": "photos/fall/Fall_Schedule.png",
             "book_points": "50",
-            "book_title": "title",
-            "description": "kljhgfcxdc\r\n",
+            "book_title": "fall",
+            "description": "lekdad\r\naddawdqwd\r\nawdwdqwdq\r\nwdqwdqwdqw\r\ndqwdqwd\r\nqwdqw\r\ndqwd\r\nq\r\ndq\r\nd\r\nqd\r\nqwdqdqwd\r\nqdq",
             "details": "",
-            "genre": "genre",
-            "user": 5
+            "genre": "sched",
+            "user": 1
         },
         "model": "books.book",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "book_review": 1,
+            "content": "Hi there",
+            "user": 1
+        },
+        "model": "books.review",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "book_review": 1,
+            "content": "Hi there",
+            "user": 1
+        },
+        "model": "books.review",
         "pk": 2
+    },
+    {
+        "fields": {
+            "book_review": 1,
+            "content": "hi",
+            "user": 1
+        },
+        "model": "books.review",
+        "pk": 3
     }
 ]

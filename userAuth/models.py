@@ -25,15 +25,15 @@ class userProfile(models.Model):
 		return self.user.username
 		
 
-class review(models.Model):
+# class review(models.Model):
 	
-	reviewTitle = models.CharField(max_length=30)
-	reviewContent = models.CharField(max_length=150)
-	user = models.ForeignKey(User, db_column='user')
-	book = models.ForeignKey(book)
+# 	reviewTitle = models.CharField(max_length=30)
+# 	reviewContent = models.CharField(max_length=150)
+# 	user = models.ForeignKey(User, db_column='user')
+# 	book = models.ForeignKey(book)
 
-	def __unicode__(self):
-		return self.reviewTitle
+# 	def __unicode__(self):
+# 		return self.reviewTitle
 
 def add_profile_pic(user, picture):
 	userProf = userProfile()
