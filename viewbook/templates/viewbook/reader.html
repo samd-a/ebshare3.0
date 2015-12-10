@@ -51,7 +51,14 @@ function closeBook(){
 function updateTime(){
 	//update reader table
 	if (timer < 0) timer = 0;
-	$.post('{% url "viewbook.views.updatetime" id 0 %}'.replace("0", timer));
+
+	$.ajax({
+		url: '{% url "viewbook.views.updatetime" id 0 %}'.replace("0", timer),
+		type: "POST",
+		async: false
+	});
+
+	//$.post('{% url "viewbook.views.updatetime" id 0 %}'.replace("0", timer));
 }
 
 function startTimer(display) {

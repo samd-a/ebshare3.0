@@ -16,7 +16,7 @@ def renderviewbook(request, book_id):
 
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-        r = reader.objects.filter(Q(book=b) & Q(user=request.user.id))
+        r = reader.objects.filter(Q(book=b) & Q(user=request.user))
         #get books with same genre or author
         #remove this one from list
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
@@ -43,7 +43,7 @@ def renderviewbook(request, book_id):
 def renderreader(request, book_id):
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-        r = reader.objects.filter(Q(book=b) & Q(user=request.user.id))
+        r = reader.objects.filter(Q(book=b) & Q(user=request.user))
         #b = book.objects.get(pk=book_id)
         #get books with same genre or author
         #remove this one from list
@@ -65,20 +65,21 @@ def renderreader(request, book_id):
 @csrf_exempt
 def purchasebook(request, book_id, price, seconds):
         b = book.objects.get(pk=book_id)
-        readerEntry, created = reader.objects.get_or_create(user=request.user.id, book=b)
-        if not created:
-            readerEntry.time_left = F('time_left') + seconds
-            readerEntry.save()
+        #created is required. Do not touch
+        readerEntry, created = reader.objects.get_or_create(user=request.user, book=b)
+        readerEntry.time_left = F('time_left') + seconds
+        readerEntry.save()
         
-        return HTTPResponse();
+        return HTTPResponse('1');
 
 @csrf_exempt
 def updatetime(request, book_id, seconds):
         b = book.objects.get(pk=book_id)
-        readerEntry, created = reader.objects.get_or_create(user=request.user.id, book=b)
-        if not created:
-            readerEntry.time_left = seconds
-            readerEntry.save()
+        #created is required. Do not touch
+        readerEntry, created = reader.objects.get_or_create(user=request.user, book=b)
+        readerEntry.time_left = seconds
+            
+        readerEntry.save()
         
-        return HTTPResponse();
+        return HTTPResponse('1');
 

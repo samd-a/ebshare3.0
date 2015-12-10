@@ -112,7 +112,11 @@
 <script>
 function addTime(){
 	//update reader table
-	$.post('{% url "viewbook.views.purchasebook" id book_points 10 %}');
+	$.ajax({
+		url: '{% url "viewbook.views.purchasebook" id book_points 10 %}',
+		type: "POST",
+		async: false
+	});
 	window.location.assign('{% url "viewbook.views.renderreader" id%}');
 }
 </script>
