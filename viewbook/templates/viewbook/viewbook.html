@@ -63,6 +63,29 @@
                 -->
             </div>
 
+            <div class="col-md-12">
+                <div class="review">
+                    <h4>User Reviews :</h4> 
+                    <h3>{{book.review.content}}</h3>
+                    {% for review in book.content.all %}
+                        <b>{{review.user.username}} :  </b>{{review.content}}
+                        </br>
+                    {% endfor %}
+                </div>
+                </br>
+                <!-- To-Do Test Action -->
+                {% if user.is_authenticated %}
+                    <form method="POST" action={% url "viewbook.views.add_review" id%}>
+                        {% csrf_token %}
+                      <fieldset class="form-group"> 
+                        <label for="formGroupExampleInput">Write a Review</label>
+                        <textarea class="form-control" id="description" name="review" rows="3" placeholder="Review" required></textarea>
+                      </fieldset>
+                      <button type="submit">Submit</button>
+                    </form>
+                {% endif %}
+            </div>
+
         </div>
         <!-- /.row -->
 
@@ -99,25 +122,19 @@
                     <a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-comment"></span> Add review</a>
                 </span>
             </div>
+
             <hr data-brackets-id="12673">
             <ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable">
-                <strong class="pull-left primary-font">James</strong>
-                <small class="pull-right text-muted">
-                   <span class="glyphicon glyphicon-time"></span>7 mins ago</small>
+                {% for review in book.review_set.all %}
+                <strong class="pull-left primary-font">{{review.user.username}}</strong>
                 </br>
-                <li class="ui-state-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </li>
+                <li class="ui-state-default">{{review.content}} </li>
                 </br>
-                 <strong class="pull-left primary-font">Taylor</strong>
-                <small class="pull-right text-muted">
-                   <span class="glyphicon glyphicon-time"></span>14 mins ago</small>
-                </br>
-                <li class="ui-state-default">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                
+                {% endfor %} 
             </ul>
-            </div>
-            </div>
         </div>
 </div>
+
 <script>
 function addTime(secs, ppt){
 	//update reader table

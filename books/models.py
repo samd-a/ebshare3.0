@@ -27,5 +27,13 @@ class book(models.Model):
     def __unicode__(self):
 		return self.book.book_title
 
+class review(models.Model):
+    user = models.ForeignKey(User)
+    book_review = models.ForeignKey(book)
+    content = models.CharField(max_length=750)
+
+    def __unicode__(self):
+        return str(self.id)
+
 #class txtbook(book):
 #    fixtures = ['books.json']
