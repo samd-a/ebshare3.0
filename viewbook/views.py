@@ -13,10 +13,12 @@ from django.http import HttpResponse
 # Create your views here.
 def renderviewbook(request, book_id):
 
-
         c = RequestContext(request);
         b = book.objects.get(pk=book_id)
-        r = reader.objects.filter(Q(book=b) & Q(user=request.user))
+        if(request.user.is_authenticated()):
+            r = reader.objects.filter(Q(book=b) & Q(user=request.user))
+        else:
+            r = reader.objects.none()
         #get books with same genre or author
         #remove this one from list
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
@@ -24,8 +26,10 @@ def renderviewbook(request, book_id):
         
         if r.count() > 0:
             c['time_left'] = r[0].time_left
+            c['user_points'] = 50
         else:
             c['time_left'] = 0
+            c['user_points'] = 0
 
         #combine book details and related books into Context
         c['book_title'] = b.book_title

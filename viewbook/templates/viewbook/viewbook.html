@@ -43,14 +43,23 @@
 				{% endif %}
 
 				<ul>
-				{% for i in "123" %}
-				{% widthratio book_points 1 i as pointspertime %}
-				{% widthratio i 1 i as multiplier %}
+				{% load tag_lib %}
+				{% for i in "012" %}
+				{% with pointspertime=forloop.counter0|ppt:book_points %}
+				{% with secondsPurchaseable=forloop.counter0|secsP:10 %}
 				<li>
-				<button class="btn btn-default primary" onclick="addTime(10*{{multiplier}}, {{pointspertime}})" {% if book_points < pointspertime %}disabled{% endif %} >
-					{{pointspertime}} for {% widthratio 10 1 multiplier %} seconds
+					<button class="btn btn-default primary"
+						    onclick="addTime({{secondsPurchaseable}}, {{pointspertime}})"
+							{% if user_points < pointspertime %}
+								disabled
+							{% endif %}
+					>
+					{{pointspertime}} for {{secondsPurchaseable}} seconds {{user_points}} {{pointspertime}}
 				</button>
 				</li>
+				{% endwith %}
+				{% endwith %}
+
 				{% endfor %}
 				</ul>
                 <!--
