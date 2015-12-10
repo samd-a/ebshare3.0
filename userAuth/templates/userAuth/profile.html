@@ -20,7 +20,20 @@
             </div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>               
+              {% if profile.picture %} 
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/{{profile.picture.url}}" class="img-circle img-responsive"> </div>
+                {% else %}
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://site.steubenvilleconferences.com/assets/images/no-image.png" class="img-circle img-responsive"> </div>            
+                {% endif %}   
+                <form action={% url "userAuth.views.addPic"%} method="POST" enctype="multipart/form-data" data-ajax="false">        
+                {% csrf_token %}
+	                <div class="form-group">
+	                  <label for="exampleProfilePic">Upload Picture</label>
+	                  <p class="help-block">Please upload profile picture</p>
+	                  <input type="file" id="picture" name="picture">
+                        <button type="submit" class="btn btn-default">Submit</button>
+	                </div>
+                </form>                                                                                   
                 <div class=" col-md-9 col-lg-9 "> 
                   <table class="table table-user-information">
                     <tbody>
@@ -42,20 +55,39 @@
                         <td>Email</td>
                         <td><a href="mailto:info@support.com">info@support.com</a></td>
                       </tr>
-                      <tr>
-                        <td>Phone Number</td>
-                        <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Associated Books:</td>
-                        {% for b in bookList %}
-                        <ul>
-                          <td><li>{{b.book_title}}</li><br></td></ul>
-                        {% endfor %}
-                      </tr>
                     </tbody>
                   </table>
+					<table class= "table">
+						<tbody>
+							<tr>
+								<td>
+			                    <form action={% url "userAuth.views.addBook"%} method="POST" enctype="multipart/form-data" data-ajax="false">
+			                        <div class="form-group">
+			                          <label for="exampleInputBadWord">Bad Words</label>
+			                          <input type="text" class="form-control" name="badword" id="badword" placeholder="Shiz">
+			                        </div>                    	
+			                    </form>  									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="row">
+					<h3>Associated Books:</h3>
+					{% for b in bookList %}
+		    		<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+						<h5>{{b.book_title}}</h5>
+						<a class="thumbnail" href={% url "viewbook.views.renderviewbook" b.id%}>
+							<img class="img-responsive portfolio-item" src="/{{b.book_cover.url}}" alt="{{b.alt_text}}"/>
+		                </a>
+		            </div>
+					{% empty %}
+		    			<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+		    	            <a class="thumbnail" href="#">
+		    	                <img class="img-responsive" src="http://placehold.it/400x300" alt="No books available">
+			                </a>
+			            </div>
+					{% endfor %}
+					</div>				                  
                   <div class="panel panel-info">
                     <div class="panel-heading">
                       <h3 class="panel-title">Upload books</h3>

@@ -1,17 +1,1 @@
-[
-    {
-        "fields": {
-            "alt_text": "",
-            "book_author": "author",
-            "book_cover": "photos/title/bookthief_Y5sCtMS.jpg",
-            "book_points": "50",
-            "book_title": "title",
-            "description": "kljhgfcxdc\r\n",
-            "details": "",
-            "genre": "genre",
-            "user": 5
-        },
-        "model": "books.book",
-        "pk": 2
-    }
-]
+[]

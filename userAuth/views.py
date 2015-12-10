@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf # for Cross Site Request Forgery.
 from userAuth.models import add_user_book
-from userAuth.models import add_profile_pic
+from userAuth.models import userProfile
+from userAuth.models import add_profile_pic, create_profile
 from books.models import book
 
 def renderProfile(request):
@@ -27,48 +28,29 @@ def register(request):
 	if request.method == 'POST':
 		# Attempt to grab information from the raw form information.
 		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
 
-		if user_form.is_valid() and profile_form.is_valid():
-			# Save the user's form data to the database.
+		if user_form.is_valid():
+		# Save the user's form data to the database.
 			user = user_form.save()
-
 			# Hash the password with the set_password method.
 			# Once hashed, we can update the user object.
 			user.set_password(user.password)
 			user.save()
-
 			# Now sort out the UserProfile instance.
-			# Since we need to set the user attribute ourselves, we set commit=False.
-			# This delays saving the model until we're ready to avoid integrity problems.
-			profile = profile_form.save(commit=False)
-			profile.user = user
-
-			# Did the user provide a profile picture?
-			# If so, we need to get it from the imput form and put it in the userProfile model.
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-
-				# Now we save the userProfile model instance
-				profile.save()
-
-				# update our variable to tell the template registration was successful.
-				registered = True
-
+			create_profile(user)
+			# update our variable to tell the template registration was successful.
+			registered = True
 			# Invalid form or forms - mistakes or something
 			# Print problems to the terminal and show them to user.
-			else:
-				print user_form.errors, profile_form.errors
+		else:
+			print user_form.errors
 	# Not a HTTP POST, so we render our form using two ModelForm instances.
 	# These forms will be blank waiting for user input.
 	else:
 		user_form = UserForm()
-		profile_form = UserProfileForm()
-
 	# Render the template depending on the context.
 	return render_to_response('userAuth/register.html',
-		{'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
-		context)
+		{'user_form': user_form, 'registered': registered}, context)
 
 def user_login(request):
 	# We obtain the context for the user's request.
@@ -115,8 +97,9 @@ def user_profile(request):
 	
     context = RequestContext(request)
     user = request.user
-    bookList = book.objects.filter(user=user) 
-    args = {'user': user, 'bookList': bookList}
+    bookList = book.objects.filter(user=user)
+    profile = userProfile.objects.get(user=user) 
+    args = {'user': user, 'bookList': bookList, 'profile': profile}
     args.update(csrf(request))
     return render_to_response('userAuth/profile.html', args, context)
 
@@ -134,7 +117,6 @@ def addPic(request):
 	picture = request.FILES['picture']
 	c_srf = {'user': user}
 	c_srf.update(csrf(request))
-
 	add_profile_pic(user, picture)
 	return HttpResponseRedirect('/')
 

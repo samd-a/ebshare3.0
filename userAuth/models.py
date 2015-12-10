@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 import os
 
 def get_image_path(instance, filename):
-    return os.path.join('photos', str(instance.username), filename)
+    return os.path.join('photos', filename)
 
 class userProfile(models.Model):
 	# This line links userProfile to a Django User model instance.
@@ -26,7 +26,6 @@ class userProfile(models.Model):
 		
 
 class review(models.Model):
-	
 	reviewTitle = models.CharField(max_length=30)
 	reviewContent = models.CharField(max_length=150)
 	user = models.ForeignKey(User, db_column='user')
@@ -35,15 +34,30 @@ class review(models.Model):
 	def __unicode__(self):
 		return self.reviewTitle
 
+class badWords(models.Model):
+	#Each user can have upto 3 bad words that they can search for in books
+    user = models.ForeignKey(User, db_column='user')
+    badword1 = models.CharField(max_length=10)
+    badword2 = models.CharField(max_length=10)
+    badword3 = models.CharField(max_length=10)
+
+    def __unicode__(self):
+		return self.badword
+
+def create_profile(user):
+    # profile, crprofile = userProfile.objects.get_or_create(user = user)
+    # if crprofile:
+    # 	profile.user = user
+    profile = userProfile()
+    profile.user = user
+    profile.save()
+
 def add_profile_pic(user, picture):
-	userProf = userProfile()
-	userProf.user = user
-	#userProf.username = user.username
+	userProf = userProfile.objects.get(user=user)
 	userProf.picture = picture
 	userProf.save()
 
 def add_user_book(user, cover, title, points, author, description, genre):
-#def add_user_book(title, author, description, genre):
 	Book = book()
 	Book.book_cover = cover
 	Book.book_title = title
@@ -53,11 +67,4 @@ def add_user_book(user, cover, title, points, author, description, genre):
 	Book.genre = genre
 	Book.user = user
 	Book.save()
-
-class badWords(models.Model):
-    badword = models.CharField(max_length=10)
-    user = models.ForeignKey(User, db_column='user')
-
-    def __unicode__(self):
-		return self.badword
 
