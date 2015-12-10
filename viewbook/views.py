@@ -8,13 +8,14 @@ from books.models import book, review
 from viewbook.models import reader
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
 
 # Create your views here.
 def renderviewbook(request, book_id):
 
-        c = RequestContext(request);
+        c = RequestContext(request)
         b = book.objects.get(pk=book_id)
         revs = review.objects.filter(book_review=b)
         r = reader.objects.filter(Q(book=b) & Q(user=request.user))
@@ -80,7 +81,7 @@ def purchasebook(request, book_id, price, seconds):
         readerEntry.time_left = F('time_left') + seconds
         readerEntry.save()
         
-        return HTTPResponse('1');
+        return HTTPResponse('1')
 
 @csrf_exempt
 def updatetime(request, book_id, seconds):
@@ -91,10 +92,11 @@ def updatetime(request, book_id, seconds):
             
         readerEntry.save()
         
-        return HTTPResponse('1');
+        return HTTPResponse('1')
 
-@login_required
+@csrf_exempt
 def add_review(request,book_id):
-    book_selected = book.objects.get(pk=book_id)
-    review(user=request.user,book_review=book_selected,content=request.POST['review']).save()
-    return HttpResponseRedirect('/')
+	c = RequestContext(request)
+	book_selected = book.objects.get(pk=book_id)
+	review(user=request.user,book_review=book_selected,content=request.POST['review']).save()
+	return HttpResponse('1')

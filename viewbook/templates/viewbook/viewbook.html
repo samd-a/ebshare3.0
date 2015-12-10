@@ -125,7 +125,15 @@ function addTime(secs, ppt){
 		type: "POST",
 		async: false
 	});
-	window.location.assign('{% url "viewbook.views.renderreader" id%}');
+	window.location.assign('{% url "viewbook.views.renderreader" id %}');
+}
+function addReview(){
+	$.ajax({
+		url: '{% url "viewbook.views.add_review" id %}',
+		type: "POST",
+		async: false		
+	});
+	window.location.assign('{% url "viewbook.views.renderviewbook" id %}');
 }
 </script>
 {% endblock %}
