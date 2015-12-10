@@ -31,8 +31,15 @@ class review(models.Model):
 	user = models.ForeignKey(User, db_column='user')
 	book = models.ForeignKey(book)
 
-	def __unicode__(self):
-		return self.reviewTitle
+# class review(models.Model):
+	
+# 	reviewTitle = models.CharField(max_length=30)
+# 	reviewContent = models.CharField(max_length=150)
+# 	user = models.ForeignKey(User, db_column='user')
+# 	book = models.ForeignKey(book)
+
+# 	def __unicode__(self):
+# 		return self.reviewTitle
 
 class badWords(models.Model):
 	#Each user can have upto 3 bad words that they can search for in books

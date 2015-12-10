@@ -4,10 +4,10 @@ from django.template import Context
 from django.template import RequestContext
 from django.db.models import Q
 from django.db.models import F
-from books.models import book
+from books.models import book, review
 from viewbook.models import reader
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 # Create your views here.
@@ -20,6 +20,8 @@ def renderviewbook(request, book_id):
         #get books with same genre or author
         #remove this one from list
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
+        # context = {'book': book_selected,'related':related}
+        # return render(request, "viewbook/viewbook.html", context)
 	
         
         if r.count() > 0:
@@ -83,3 +85,8 @@ def updatetime(request, book_id, seconds):
         
         return HTTPResponse('1');
 
+
+def add_review(request,book_id):
+    book_selected = book.objects.get(pk=book_id)
+    review(user=request.user,book_review=book_selected,content=request.POST['review']).save()
+    return HttpResponseRedirect('/viewbook/book_id')
