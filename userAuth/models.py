@@ -1,6 +1,7 @@
 from django.db import models
 from books.models import book
 from django.contrib.auth.models import User
+from django.db.models import F
 import os
 
 def get_image_path(instance, filename):
@@ -56,6 +57,11 @@ def add_profile_pic(user, picture):
 	userProf.save()
 
 def add_user_book(user, cover, title, points, author, description, genre):
+
+	userProf = userProfile.objects.get(user=user)
+        userProf.points = F('points') + 50
+	userProf.save()
+
 	Book = book()
 	Book.book_cover = cover
 	Book.book_title = title

@@ -6,10 +6,13 @@ from django.db.models import Q
 from django.db.models import F
 from books.models import book, review
 from viewbook.models import reader
+from userAuth.models import userProfile
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+import json
 
 
 # Create your views here.
@@ -18,7 +21,6 @@ def renderviewbook(request, book_id):
         c = RequestContext(request)
         b = book.objects.get(pk=book_id)
         revs = review.objects.filter(book_review=b)
-        r = reader.objects.filter(Q(book=b) & Q(user=request.user))
         if(request.user.is_authenticated()):
             r = reader.objects.filter(Q(book=b) & Q(user=request.user))
         else:
@@ -28,14 +30,17 @@ def renderviewbook(request, book_id):
         related = book.objects.filter(Q(book_author__contains=b.book_author) | Q(genre__contains=b.genre)).exclude(pk=book_id)
         # context = {'book': book_selected,'related':related}
         # return render(request, "viewbook/viewbook.html", context)
-	
+        
+        if request.user.is_authenticated():
+            profile = userProfile.objects.get(user=request.user)
+            c['user_points'] = profile.points
+        else:
+            c['user_points'] = 0
         
         if r.count() > 0:
             c['time_left'] = r[0].time_left
-            c['user_points'] = 50
         else:
             c['time_left'] = 0
-            c['user_points'] = 0
 
         #combine book details and related books into Context
         c['book_title'] = b.book_title
@@ -80,6 +85,9 @@ def purchasebook(request, book_id, price, seconds):
         readerEntry, created = reader.objects.get_or_create(user=request.user, book=b)
         readerEntry.time_left = F('time_left') + seconds
         readerEntry.save()
+        profile = userProfile.objects.get(user=request.user)
+        profile.points = F('points') - price
+        profile.save()
         
         return HTTPResponse('1')
 
@@ -98,5 +106,10 @@ def updatetime(request, book_id, seconds):
 def add_review(request,book_id):
 	c = RequestContext(request)
 	book_selected = book.objects.get(pk=book_id)
-	review(user=request.user,book_review=book_selected,content=request.POST['review']).save()
-	return HttpResponse('1')
+	rev = review(user=request.user,book_review=book_selected,content=request.POST['review'])
+        rev.save()
+        jsonObj = {}
+        jsonObj['\'user\''] = rev.user.username
+        jsonObj['\'content\''] = rev.content
+        return JsonResponse(jsonObj)
+        #return HttpResponse(json.dumps(jsonObj), content_type="application/json")

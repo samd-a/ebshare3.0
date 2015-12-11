@@ -54,7 +54,7 @@
 								disabled
 							{% endif %}
 					>
-					{{pointspertime}} for {{secondsPurchaseable}} seconds {{user_points}} {{pointspertime}}
+					{{pointspertime}} for {{secondsPurchaseable}} seconds | user points:{{user_points}}
 				</button>
 				</li>
 				{% endwith %}
@@ -94,7 +94,7 @@
             <div class="well">
                 {% if user.is_authenticated %}
                 <h4>Review this book</h4>
-                     <form class="form-inline" name="userReview" method="POST" action={% url "viewbook.views.add_review" id%}>
+                     <form class="form-inline" name="userReview" id="userReview" method="POST" action={% url "viewbook.views.add_review" id%}>
                         {% csrf_token %}               
 			            <div class="input-group col-sm-3 col-md-10">
 			                <input type="text" name="review" rows="2" id="userComment" class="form-control input-sm chat-input" placeholder="Write your message here..." />
@@ -106,7 +106,7 @@
 			    {% endif %}
 
             <hr data-brackets-id="12673">
-            <ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable">
+            <ul data-brackets-id="12674" id="comment_list" class="list-unstyled ui-sortable">
                 {% for review in reviews %}
                 <strong class="pull-left primary-font">{{review.user.username}}</strong>
                 </br>
@@ -121,19 +121,42 @@
 function addTime(secs, ppt){
 	//update reader table
 	$.ajax({
-		url: '{% url "viewbook.views.purchasebook" id 00 11 %}'.replace('00', ppt).replace('11', secs),
+		url: '{% url "viewbook.views.purchasebook" id 11 22 %}'.replace('11', ppt).replace('22', secs),
 		type: "POST",
 		async: false
 	});
 	window.location.assign('{% url "viewbook.views.renderreader" id %}');
 }
-function addReview(){
+//function addReview(){
+$('#userReview').on('submit', function(e) {
+	e.preventDefault();
 	$.ajax({
+		url : $(this).attr('action') || window.location.pathname,
+            type: "POST",
+            data: $(this).serialize(),
+			success: function (data) {
+                //$("#comment_list").html(data);
+				//jsonObj = $.parseJSON(data);
+				//console.log(jsonObj);
+				//console.log(data);
+				//console.log(data.content);
+				window.location.reload();
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+				console.log(jXHR);
+				console.log(textStatus)
+                alert(errorThrown);
+            }
+	});
+});
+		/*
 		url: '{% url "viewbook.views.add_review" id %}',
 		type: "POST",
 		async: false		
 	});
 	window.location.assign('{% url "viewbook.views.renderviewbook" id %}');
 }
+	 */
+
 </script>
 {% endblock %}
