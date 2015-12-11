@@ -76,4 +76,4 @@ def add_bad_word(user, badWord):
 	Badword = badWords()
 	Badword.user = user
 	Badword.badword = badWord
-	badWord.save()
+	Badword.save()
