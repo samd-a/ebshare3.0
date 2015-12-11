@@ -132,17 +132,11 @@ def addBook(request):
 	bDescription = str(request.POST.get('description'))
 	bGenre = str(request.POST.get('genre'))
 	add_user_book(user, bCover, bTitle, bPoints, bAuthor, bDescription, bGenre)
-	#add_user_book( bTitle, bAuthor, bDescription, bGenre)
 	
 	return HttpResponseRedirect('/bookshelf/')
-	# TODO:
-	# generate book id 
-	# models class add_user_book 
 	
-
-
-
-#TODO:
-#get_booksuploaded
-#get_review written
-#get_points
+def badWord(request):
+	user = request.user
+	badWord = str(request.POST.get('badword'))
+	add_bad_word(user, badWord)
+	
