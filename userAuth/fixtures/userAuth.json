@@ -1,9 +1,9 @@
 [
     {
         "fields": {
-            "picture": "photos/20309388183_a07b216805_o.jpg",
-            "points": 0,
-            "user": 4
+            "picture": "",
+            "points": 280,
+            "user": 2
         },
         "model": "userAuth.userprofile",
         "pk": ""
