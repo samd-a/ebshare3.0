@@ -36,9 +36,13 @@ class userProfile(models.Model):
 # 		return self.reviewTitle
 
 class badWords(models.Model):
-	#Each user can have upto 3 bad words that they can search for in books
+	#Each user can have bad words that they can search for in books
     user = models.ForeignKey(User, db_column='user')
+<<<<<<< HEAD
     badword = models.CharField(max_length=10)
+=======
+    badword = models.CharField(max_length=20)
+>>>>>>> f0c2c0408d23ff4d49d205dc4cc4ded2fc0b6759
 
     def __unicode__(self):
 		return self.badword
@@ -72,3 +76,8 @@ def add_user_book(user, cover, title, points, author, description, genre):
 	Book.user = user
 	Book.save()
 
+def add_bad_word(user, badWord):
+	Badword = badWords()
+	Badword.user = user
+	Badword.badword = badWord
+	Badword.save()
